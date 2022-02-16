@@ -245,42 +245,41 @@ function contactForm() {
 
 
   let contact = {
-    firstname : document.getElementById('firstName').value,
-    lastname : document.getElementById('lastName').value,
+    firstName : document.getElementById('firstName').value,
+    lastName : document.getElementById('lastName').value,
     address : document.getElementById('address').value,
     city : document.getElementById('city').value,
     email : document.getElementById('email').value,
   }
 
-  let productfinal = inLocalStorage;
 
   console.log(contact);
-  console.log(productfinal);
+  console.log(products);
+ 
 
-  let checkout = {
+
+
+  const checkout = {
     contact,
-    productfinal,
+    products,
   }
-  console.log(checkout);
 
-  let send ={
+  const options = {
     method: 'POST',
     body : JSON.stringify(checkout),
-    headers:{
-      'accept': 'application/json',
+    headers: {
+      'Accept': 'application/json',
       'Content-Type': 'application/json'
-    }
+    },
   };
 
-  
-  fetch("http://localhost:3000/api/products/order/", send)
+  fetch('http://localhost:3000/api/products/order', options)
   .then((response) => response.json())
-  .then((response) => { 
-     localStorage.setItem('orderId', response.orderId);
-    //  document.location.href = "confirmation.html?id=" + data.orderId;
-     console.log(response);
+  .then((data) => {
+    localStorage.setItem('orderId', data.orderId);
+    document.location.href = "confirmation.html?id=" + data.orderId;
+    console.log(data);
   })
-  
   
 
 } else {
