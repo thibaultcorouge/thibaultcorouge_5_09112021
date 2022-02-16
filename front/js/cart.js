@@ -134,7 +134,7 @@ function totalPrice() {
   totalPrice.textContent = total;
 }
 
-// fonction de validation des inputs dans le formulaire.
+// fonction de validation des inputs dans le formulaire a l'aide des REGEX
 
   
   let firstName = document.getElementById("firstName");
@@ -228,7 +228,7 @@ function totalPrice() {
   }
 
 contactForm();
-
+// fonction de validation du formulaire permettant l'envoi vers le back uniquement si les conditions du formulaire sont remplis
 function contactForm() {
 
   let order = document.getElementById("order");

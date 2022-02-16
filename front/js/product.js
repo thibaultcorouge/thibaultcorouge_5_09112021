@@ -1,29 +1,26 @@
-let url = new URL(window.location.href).searchParams;
+// recuperation de l'ID du produit dans l'URL
+let url = new URL(window.location.href).searchParams; 
 let urlID = url.get("id");
 
+// fetch du produit séléctionné via l'ID
+// affichage du produit en ajoutant a l'interieur du code HTML les éléments du JSON correspondant au produit
 fetch("http://localhost:3000/api/products/" + urlID)
   .then((response) => response.json())
   .then((response) => {
     console.log(response);
 
-    let title = (document.getElementById(
-      "title"
-    ).innerHTML = `<h1>${response.name}</h1>`);
+    document.getElementById("title").innerHTML = `<h1>${response.name}</h1>`;
 
-    let price = (document.getElementById(
-      "price"
-    ).innerHTML = `<p>${response.price}</p>`);
+    document.getElementById("price").innerHTML = `<p>${response.price}</p>`;
 
-    let description = (document.getElementById(
-      "description"
-    ).innerHTML = `<p>${response.description}</p>`);
+    document.getElementById("description").innerHTML = `<p>${response.description}</p>`;
 
     let image = document.createElement("img");
     image.id = "myimg";
     image.src = `${response.imageUrl}`;
     image.alt = `${response.altTxt}`;
     document.querySelector(".item__img").appendChild(image);
-
+// choix de la couleur via les couleurs disponible pour cet ID
     for (x in response.colors) {
       colors.options[colors.options.length] = new Option(response.colors[x]);
     }
@@ -34,7 +31,7 @@ let xQuantity = document.getElementById("quantity");
 let xColors = document.getElementById("colors");
 let addToCart = document.getElementById("addToCart");
 
-
+// ajout d'un élément d'écoute (click) sur le bouton "addtocart" et récupération des différents éléments (id/image/name/qty/colors)
 addToCart.addEventListener("click", (event) => {
   event.preventDefault();
 
@@ -50,9 +47,8 @@ addToCart.addEventListener("click", (event) => {
 
   handleStorage(selectedProduct);
 });
-
+// fonction de stockage dans le local storage 
 function handleStorage(product) {
-  console.log("pick fct");
 
   let selectedProduct = {
     id: urlID,
@@ -64,11 +60,10 @@ function handleStorage(product) {
     quantity: xQuantity.value,
   };
 
-  //check if the storage is empty
+  //check if the localstorage is empty
 
   let inLocalStorage = JSON.parse(localStorage.getItem("products"));
   console.log(inLocalStorage)
-  // console.log("pick")
 
   // Check if localStorage is not empty and if the same id and same color is already in the local storage
   if (inLocalStorage) {
