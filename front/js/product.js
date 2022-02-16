@@ -46,6 +46,7 @@ addToCart.addEventListener("click", (event) => {
   };
 
   handleStorage(selectedProduct);
+  window.alert("produit ajouté au panier!")
 });
 // fonction de stockage dans le local storage 
 function handleStorage(product) {
