@@ -40,7 +40,7 @@ addToCart.addEventListener("click", (event) => {
     image: document.getElementById("myimg").src,
     alt: document.getElementById("myimg").alt,
     name: title.textContent,
-    price: price.textContent,
+    //price: price.textContent,
     color: xColors.value,
     quantity: xQuantity.value,
   };

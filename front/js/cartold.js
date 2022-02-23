@@ -1,124 +1,43 @@
 let inLocalStorage = JSON.parse(localStorage.getItem("products"));
 console.log(inLocalStorage);
+
 let products = [];
 let itemproduct = [];
- 
-
-
-
 
 // affichage des différents produits du local storage sur la page
 
 for (i = 0; i < inLocalStorage.length; i++) {
   products.push(inLocalStorage[i].id);
-  let idmatch = inLocalStorage[i].id
 
-  let productArticle = document.createElement("article");
-  document.querySelector("#cart__items").appendChild(productArticle);
-  productArticle.className = "cart__item";
-  productArticle.setAttribute('data-id', inLocalStorage[i].id);
-
-  // Insertion de l'élément "div"
-  let productDivImg = document.createElement("div");
-  productArticle.appendChild(productDivImg);
-  productDivImg.className = "cart__item__img";
-
-  // Insertion de l'image
-  let productImg = document.createElement("img");
-  productDivImg.appendChild(productImg);
-  productImg.src = inLocalStorage[i].image;
-  productImg.alt = inLocalStorage[i].alt;
-  
-  // Insertion de l'élément "div"
-  let productItemContent = document.createElement("div");
-  productArticle.appendChild(productItemContent);
-  productItemContent.className = "cart__item__content";
-
-  // Insertion de l'élément "div"
-  let productItemContentTitlePrice = document.createElement("div");
-  productItemContent.appendChild(productItemContentTitlePrice);
-  productItemContentTitlePrice.className = "cart__item__content__titlePrice";
-  
-  // Insertion du titre h3
-  let productTitle = document.createElement("h2");
-  productItemContentTitlePrice.appendChild(productTitle);
-  productTitle.innerHTML = inLocalStorage[i].name;
-
-  // Insertion de la couleur
-  let productColor = document.createElement("p");
-  productTitle.appendChild(productColor);
-  productColor.innerHTML = inLocalStorage[i].color;
-  productColor.style.fontSize = "20px";
-
-  // Insertion du prix
-  fetch("http://localhost:3000/api/products/" + idmatch)
-  .then((response) => response.json())
-  .then((data) => {
-  let productPrice = document.createElement("p");
-  productPrice.id = "idPrice"
-  productItemContentTitlePrice.appendChild(productPrice);
-  productPrice.innerHTML = data.price + " €";
-
-    })
-
-  // Insertion de l'élément "div"
-  let productItemContentSettings = document.createElement("div");
-  productItemContent.appendChild(productItemContentSettings);
-  productItemContentSettings.className = "cart__item__content__settings";
-
-  // Insertion de l'élément "div"
-  let productItemContentSettingsQuantity = document.createElement("div");
-  productItemContentSettings.appendChild(productItemContentSettingsQuantity);
-  productItemContentSettingsQuantity.className = "cart__item__content__settings__quantity";
-  
-  // Insertion de "Qté : "
-  let productQte = document.createElement("p");
-  productItemContentSettingsQuantity.appendChild(productQte);
-  productQte.innerHTML = "Qté : ";
-
-  // Insertion de la quantité
-  let productQuantity = document.createElement("input");
-  productItemContentSettingsQuantity.appendChild(productQuantity);
-  productQuantity.value = inLocalStorage[i].quantity;
-  productQuantity.className = "itemQuantity";
-  productQuantity.setAttribute("type", "number");
-  productQuantity.setAttribute("min", "1");
-  productQuantity.setAttribute("max", "100");
-  productQuantity.setAttribute("name", "itemQuantity");
-
-  // Insertion de l'élément "div"
-  let productItemContentSettingsDelete = document.createElement("div");
-  productItemContentSettings.appendChild(productItemContentSettingsDelete);
-  productItemContentSettingsDelete.className = "cart__item__content__settings__delete";
-
-  // Insertion de "p" supprimer
-  let productSupprimer = document.createElement("p");
-  productItemContentSettingsDelete.appendChild(productSupprimer);
-  productSupprimer.className = "deleteItem";
-  productSupprimer.innerHTML = "Supprimer";
-
-  totalPrice();
-
-  function totalPrice() {
-    fetch("http://localhost:3000/api/products/" + idmatch)
-    .then((response) => response.json())
-    .then((data) => {
-
-    let simpleMath = [];
-
-    for (m in inLocalStorage) {
-      let cartPrice = data.price * inLocalStorage[m].quantity;
-      simpleMath.push(cartPrice);
-  
-      let decrease = (oldValue, newValue) => oldValue + newValue;
-      total = simpleMath.reduce(decrease);
-    }
-  
-    let totalPrice = document.getElementById("totalPrice");
-    totalPrice.textContent = total;
-    })
-    }
-    
+  itemproduct =
+    itemproduct +
+    `
+            <article class="cart__item" data-id="${inLocalStorage[i].id}" data-color="${inLocalStorage.color}">
+                <div class="cart__item__img">
+                  <img src="${inLocalStorage[i].image}" alt="${inLocalStorage[i].alt}">
+                </div>
+                <div class="cart__item__content">
+                  <div class="cart__item__content__description">
+                    <h2>${inLocalStorage[i].name}</h2>
+                    <p>${inLocalStorage[i].color}</p>
+                    <p>${inLocalStorage[i].price}</p>
+                  </div>
+                  <div class="cart__item__content__settings">
+                    <div class="cart__item__content__settings__quantity">
+                      <p>Qté : </p>
+                      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${inLocalStorage[i].quantity}">
+                    </div>
+                    <div class="cart__item__content__settings__delete">
+                      <p class="deleteItem">Supprimer</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+`;
+}
+if (i === inLocalStorage.length) {
+  let itemCart = document.getElementById("cart__items");
+  itemCart.innerHTML += itemproduct;
 }
 
 
@@ -199,23 +118,21 @@ function totalProduct() {
 // calcul du prix total de la commande
 
 
-// totalPrice();
+totalPrice();
 
-// function totalPrice() {
-//   let simpleMath = [];
-//   let price = document.getElementById("idPrice")
-//   console.log(price)
-//   for (m in inLocalStorage) {
-//     let cartPrice = price * inLocalStorage[m].quantity;
-//     simpleMath.push(cartPrice);
+function totalPrice() {
+  let simpleMath = [];
+  for (m in inLocalStorage) {
+    let cartPrice = inLocalStorage[m].price * inLocalStorage[m].quantity;
+    simpleMath.push(cartPrice);
 
-//     let decrease = (oldValue, newValue) => oldValue + newValue;
-//     total = simpleMath.reduce(decrease);
-//   }
+    let decrease = (oldValue, newValue) => oldValue + newValue;
+    total = simpleMath.reduce(decrease);
+  }
 
-//   let totalPrice = document.getElementById("totalPrice");
-//   totalPrice.textContent = total;
-// }
+  let totalPrice = document.getElementById("totalPrice");
+  totalPrice.textContent = total;
+}
 
 // fonction de validation des inputs dans le formulaire a l'aide des REGEX
 
