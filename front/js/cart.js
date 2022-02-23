@@ -2,10 +2,6 @@ let inLocalStorage = JSON.parse(localStorage.getItem("products"));
 console.log(inLocalStorage);
 let products = [];
 let itemproduct = [];
- 
-
-
-
 
 // affichage des différents produits du local storage sur la page
 
@@ -18,39 +14,39 @@ for (i = 0; i < inLocalStorage.length; i++) {
   productArticle.className = "cart__item";
   productArticle.setAttribute('data-id', inLocalStorage[i].id);
 
-  // Insertion de l'élément "div"
+  // élément "div"
   let productDivImg = document.createElement("div");
   productArticle.appendChild(productDivImg);
   productDivImg.className = "cart__item__img";
 
-  // Insertion de l'image
+  // image
   let productImg = document.createElement("img");
   productDivImg.appendChild(productImg);
   productImg.src = inLocalStorage[i].image;
   productImg.alt = inLocalStorage[i].alt;
   
-  // Insertion de l'élément "div"
+  // élément "div"
   let productItemContent = document.createElement("div");
   productArticle.appendChild(productItemContent);
   productItemContent.className = "cart__item__content";
 
-  // Insertion de l'élément "div"
+  // élément "div"
   let productItemContentTitlePrice = document.createElement("div");
   productItemContent.appendChild(productItemContentTitlePrice);
   productItemContentTitlePrice.className = "cart__item__content__titlePrice";
   
-  // Insertion du titre h3
+  // titre h3
   let productTitle = document.createElement("h2");
   productItemContentTitlePrice.appendChild(productTitle);
   productTitle.innerHTML = inLocalStorage[i].name;
 
-  // Insertion de la couleur
+  // couleur
   let productColor = document.createElement("p");
   productTitle.appendChild(productColor);
   productColor.innerHTML = inLocalStorage[i].color;
   productColor.style.fontSize = "20px";
 
-  // Insertion du prix
+  // prix
   fetch("http://localhost:3000/api/products/" + idmatch)
   .then((response) => response.json())
   .then((data) => {
@@ -61,22 +57,22 @@ for (i = 0; i < inLocalStorage.length; i++) {
 
     })
 
-  // Insertion de l'élément "div"
+  // élément "div"
   let productItemContentSettings = document.createElement("div");
   productItemContent.appendChild(productItemContentSettings);
   productItemContentSettings.className = "cart__item__content__settings";
 
-  // Insertion de l'élément "div"
+  // élément "div"
   let productItemContentSettingsQuantity = document.createElement("div");
   productItemContentSettings.appendChild(productItemContentSettingsQuantity);
   productItemContentSettingsQuantity.className = "cart__item__content__settings__quantity";
   
-  // Insertion de "Qté : "
+  //  "Qté : "
   let productQte = document.createElement("p");
   productItemContentSettingsQuantity.appendChild(productQte);
   productQte.innerHTML = "Qté : ";
 
-  // Insertion de la quantité
+  // input quantité
   let productQuantity = document.createElement("input");
   productItemContentSettingsQuantity.appendChild(productQuantity);
   productQuantity.value = inLocalStorage[i].quantity;
@@ -86,19 +82,18 @@ for (i = 0; i < inLocalStorage.length; i++) {
   productQuantity.setAttribute("max", "100");
   productQuantity.setAttribute("name", "itemQuantity");
 
-  // Insertion de l'élément "div"
+  // élément "div"
   let productItemContentSettingsDelete = document.createElement("div");
   productItemContentSettings.appendChild(productItemContentSettingsDelete);
   productItemContentSettingsDelete.className = "cart__item__content__settings__delete";
 
-  // Insertion de "p" supprimer
+  // "p" supprimer
   let productSupprimer = document.createElement("p");
   productItemContentSettingsDelete.appendChild(productSupprimer);
   productSupprimer.className = "deleteItem";
   productSupprimer.innerHTML = "Supprimer";
     
 }
-
 
 // fonction de suppression du produit dans la page checkout
 
@@ -156,7 +151,6 @@ function productQuantity() {
     
 }
 
-
 // calcul de la quantité total d'un produit
 
 totalProduct();
@@ -206,24 +200,6 @@ function totalPrice() {
   })
   }
 }
-  
-// totalPrice();
-
-// function totalPrice() {
-//   let simpleMath = [];
-//   let price = document.getElementById("idPrice")
-//   console.log(price)
-//   for (m in inLocalStorage) {
-//     let cartPrice = price * inLocalStorage[m].quantity;
-//     simpleMath.push(cartPrice);
-
-//     let decrease = (oldValue, newValue) => oldValue + newValue;
-//     total = simpleMath.reduce(decrease);
-//   }
-
-//   let totalPrice = document.getElementById("totalPrice");
-//   totalPrice.textContent = total;
-// }
 
 // fonction de validation des inputs dans le formulaire a l'aide des REGEX
 
