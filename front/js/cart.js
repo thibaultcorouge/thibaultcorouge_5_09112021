@@ -96,28 +96,6 @@ for (i = 0; i < inLocalStorage.length; i++) {
   productItemContentSettingsDelete.appendChild(productSupprimer);
   productSupprimer.className = "deleteItem";
   productSupprimer.innerHTML = "Supprimer";
-
-  totalPrice();
-
-  function totalPrice() {
-    fetch("http://localhost:3000/api/products/" + idmatch)
-    .then((response) => response.json())
-    .then((data) => {
-
-    let simpleMath = [];
-
-    for (m in inLocalStorage) {
-      let cartPrice = data.price * inLocalStorage[m].quantity;
-      simpleMath.push(cartPrice);
-  
-      let decrease = (oldValue, newValue) => oldValue + newValue;
-      total = simpleMath.reduce(decrease);
-    }
-  
-    let totalPrice = document.getElementById("totalPrice");
-    totalPrice.textContent = total;
-    })
-    }
     
 }
 
@@ -197,8 +175,38 @@ function totalProduct() {
 
 
 // calcul du prix total de la commande
+totalPrice();
 
+function totalPrice() {
+  
+  let simpleMath = [];
 
+  for (m = 0; m < inLocalStorage.length; m++) {
+    products.push(inLocalStorage[m].id);
+    let idmatch = inLocalStorage[m].id;
+    let quantity = inLocalStorage[m].quantity;
+    fetch("http://localhost:3000/api/products/" + idmatch)
+    .then((response) => response.json())
+    .then((data) => {
+
+    console.log(data)
+    console.log(data.price)
+    console.log(quantity)
+
+    
+    let cartPrice = data.price * quantity;
+    simpleMath.push(cartPrice);
+
+    let decrease = (oldValue, newValue) => oldValue + newValue;
+    total = simpleMath.reduce(decrease);
+      
+
+    let totalPrice = document.getElementById("totalPrice");
+    totalPrice.textContent = total;
+  })
+  }
+}
+  
 // totalPrice();
 
 // function totalPrice() {
